@@ -1,0 +1,15 @@
+﻿Build started 3/11/2015 9:14:33 AM.
+     1>Project "C:\Users\Cristi\Desktop\Tomato_v2\pcap\libpcap\libpcap-1.6.2\Examples-pcap\basic_dump_ex\basic_dump_ex.vcxproj" on node 3 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../ /I../bpf/ /I../lbl/ /I../../Include/ /I"D:/Program Files/Microsoft Platform SDK/include" /ZI /nologo /W3 /WX- /Od /Oy- /D _DEBUG /D WIN32 /D _CONSOLE /D _MBCS /D WPCAP /D HAVE_REMOTE /D _VC80_UPGRADE=0x0600 /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt basic_dump_ex.c
+         basic_dump_ex.c
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\basic_dump_ex.exe" /INCREMENTAL /NOLOGO odbc32.lib odbccp32.lib wsock32.lib ws2_32.lib Iphlpapi.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:".\Debug\basic_dump_ex.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\basic_dump_ex.lib" /MACHINE:X86 /SAFESEH .\Debug\basic_dump_ex.obj
+         ..\..\lib\Wpcap.lib
+     1>basic_dump_ex.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+         basic_dump_ex.vcxproj -> C:\Users\Cristi\Desktop\Tomato_v2\pcap\libpcap\libpcap-1.6.2\Examples-pcap\basic_dump_ex\.\Debug\basic_dump_ex.exe
+     1>Done Building Project "C:\Users\Cristi\Desktop\Tomato_v2\pcap\libpcap\libpcap-1.6.2\Examples-pcap\basic_dump_ex\basic_dump_ex.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:16.07

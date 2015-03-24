@@ -1,0 +1,17 @@
+﻿Build started 3/11/2015 9:14:34 AM.
+     1>Project "C:\Users\Cristi\Desktop\Tomato_v2\pcap\libpcap\libpcap-1.6.2\Examples-pcap\pcap_filter\pcap_filter.vcxproj" on node 9 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../ /I../bpf/ /I../lbl/ /I../../Include/ /ZI /nologo /W3 /WX- /Od /Oy- /D _DEBUG /D WIN32 /D _CONSOLE /D _MBCS /D WPCAP /D HAVE_REMOTE /D _VC80_UPGRADE=0x0600 /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt pcap_filter.c
+         pcap_filter.c
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1193,5): warning MSB8012: TargetPath(C:\Users\Cristi\Desktop\Tomato_v2\pcap\libpcap\libpcap-1.6.2\Examples-pcap\pcap_filter\.\Debug\pcap_filter.exe) does not match the Linker's OutputFile property value (C:\Users\Cristi\Desktop\Tomato_v2\pcap\libpcap\libpcap-1.6.2\Examples-pcap\pcap_filter\Debug\pf.exe). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(1195,5): warning MSB8012: TargetName(pcap_filter) does not match the Linker's OutputFile property value (pf). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Link.OutputFile).
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Debug/pf.exe" /INCREMENTAL /NOLOGO odbc32.lib odbccp32.lib wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:".\Debug\pcap_filter.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\pcap_filter.lib" /MACHINE:X86 /SAFESEH .\Debug\pcap_filter.obj
+         ..\..\lib\Wpcap.lib
+     1>pcap_filter.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+         pcap_filter.vcxproj -> C:\Users\Cristi\Desktop\Tomato_v2\pcap\libpcap\libpcap-1.6.2\Examples-pcap\pcap_filter\.\Debug\pcap_filter.exe
+     1>Done Building Project "C:\Users\Cristi\Desktop\Tomato_v2\pcap\libpcap\libpcap-1.6.2\Examples-pcap\pcap_filter\pcap_filter.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:15.67
