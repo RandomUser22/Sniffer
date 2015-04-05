@@ -24,240 +24,258 @@ InterfaceManager::~InterfaceManager()
 
 }
 
-QList<QStringList> InterfaceManager::getListOfInterfacess()
+QList<SniffingInterfacePtr> InterfaceManager::getListOfInterfacess()
 {
-    {
+    //    {
 
-        /* Declare and initialize variables */
+    //        /* Declare and initialize variables */
 
-        int argc = 2;
-        char *argv[] = { "4" , "A" };
+    //        int argc = 2;
+    //        char *argv[] = { "4" , "A" };
 
-        DWORD dwSize = 0;
-        DWORD dwRetVal = 0;
+    //        DWORD dwSize = 0;
+    //        DWORD dwRetVal = 0;
 
-        unsigned int i = 0;
+    //        unsigned int i = 0;
 
-        // Set the flags to pass to GetAdaptersAddresses
-        ULONG flags = GAA_FLAG_INCLUDE_PREFIX;
+    //        // Set the flags to pass to GetAdaptersAddresses
+    //        ULONG flags = GAA_FLAG_INCLUDE_PREFIX;
 
-        // default to unspecified address family (both)
-        ULONG family = AF_UNSPEC;
+    //        // default to unspecified address family (both)
+    //        ULONG family = AF_UNSPEC;
 
-        LPVOID lpMsgBuf = NULL;
+    //        LPVOID lpMsgBuf = NULL;
 
-        PIP_ADAPTER_ADDRESSES pAddresses = NULL;
-        ULONG outBufLen = 0;
-        ULONG Iterations = 0;
+    //        PIP_ADAPTER_ADDRESSES pAddresses = NULL;
+    //        ULONG outBufLen = 0;
+    //        ULONG Iterations = 0;
 
-        PIP_ADAPTER_ADDRESSES pCurrAddresses = NULL;
-        PIP_ADAPTER_UNICAST_ADDRESS pUnicast = NULL;
-        PIP_ADAPTER_ANYCAST_ADDRESS pAnycast = NULL;
-        PIP_ADAPTER_MULTICAST_ADDRESS pMulticast = NULL;
-        IP_ADAPTER_DNS_SERVER_ADDRESS *pDnServer = NULL;
-        IP_ADAPTER_PREFIX *pPrefix = NULL;
+    //        PIP_ADAPTER_ADDRESSES pCurrAddresses = NULL;
+    //        PIP_ADAPTER_UNICAST_ADDRESS pUnicast = NULL;
+    //        PIP_ADAPTER_ANYCAST_ADDRESS pAnycast = NULL;
+    //        PIP_ADAPTER_MULTICAST_ADDRESS pMulticast = NULL;
+    //        IP_ADAPTER_DNS_SERVER_ADDRESS *pDnServer = NULL;
+    //        IP_ADAPTER_PREFIX *pPrefix = NULL;
 
-        if (argc != 2) {
-            qDebug(" Usage: getadapteraddresses family\n");
-            qDebug("        getadapteraddresses 4 (for IPv4)\n");
-            qDebug("        getadapteraddresses 6 (for IPv6)\n");
-            qDebug("        getadapteraddresses A (for both IPv4 and IPv6)\n");
-            exit(1);
-        }
+    //        if (argc != 2) {
+    //            qDebug(" Usage: getadapteraddresses family\n");
+    //            qDebug("        getadapteraddresses 4 (for IPv4)\n");
+    //            qDebug("        getadapteraddresses 6 (for IPv6)\n");
+    //            qDebug("        getadapteraddresses A (for both IPv4 and IPv6)\n");
+    //            exit(1);
+    //        }
 
-        if (atoi(argv[1]) == 4)
-            family = AF_INET;
-        else if (atoi(argv[1]) == 6)
-            family = AF_INET6;
+    //        if (atoi(argv[1]) == 4)
+    //            family = AF_INET;
+    //        else if (atoi(argv[1]) == 6)
+    //            family = AF_INET6;
 
-        qDebug("Calling GetAdaptersAddresses function with family = ");
-        if (family == AF_INET)
-            qDebug("AF_INET\n");
-        if (family == AF_INET6)
-            qDebug("AF_INET6\n");
-        if (family == AF_UNSPEC)
-            qDebug("AF_UNSPEC\n\n");
+    //        qDebug("Calling GetAdaptersAddresses function with family = ");
+    //        if (family == AF_INET)
+    //            qDebug("AF_INET\n");
+    //        if (family == AF_INET6)
+    //            qDebug("AF_INET6\n");
+    //        if (family == AF_UNSPEC)
+    //            qDebug("AF_UNSPEC\n\n");
 
-        // Allocate a 15 KB buffer to start with.
-        outBufLen = WORKING_BUFFER_SIZE;
+    //        // Allocate a 15 KB buffer to start with.
+    //        outBufLen = WORKING_BUFFER_SIZE;
 
-        do {
+    //        do {
 
-            pAddresses = (IP_ADAPTER_ADDRESSES *) MALLOC(outBufLen);
-            if (pAddresses == NULL) {
-                printf
-                    ("Memory allocation failed for IP_ADAPTER_ADDRESSES struct\n");
-                exit(1);
-            }
+    //            pAddresses = (IP_ADAPTER_ADDRESSES *) MALLOC(outBufLen);
+    //            if (pAddresses == NULL) {
+    //                printf
+    //                    ("Memory allocation failed for IP_ADAPTER_ADDRESSES struct\n");
+    //                exit(1);
+    //            }
 
-            dwRetVal =
-                GetAdaptersAddresses(family, flags, NULL, pAddresses, &outBufLen);
+    //            dwRetVal =
+    //                GetAdaptersAddresses(family, flags, NULL, pAddresses, &outBufLen);
 
-            if (dwRetVal == ERROR_BUFFER_OVERFLOW) {
-                FREE(pAddresses);
-                pAddresses = NULL;
-            } else {
-                break;
-            }
+    //            if (dwRetVal == ERROR_BUFFER_OVERFLOW) {
+    //                FREE(pAddresses);
+    //                pAddresses = NULL;
+    //            } else {
+    //                break;
+    //            }
 
-            Iterations++;
+    //            Iterations++;
 
-        } while ((dwRetVal == ERROR_BUFFER_OVERFLOW) && (Iterations < MAX_TRIES));
+    //        } while ((dwRetVal == ERROR_BUFFER_OVERFLOW) && (Iterations < MAX_TRIES));
 
-        if (dwRetVal == NO_ERROR) {
-            // If successful, output some information from the data we received
-            pCurrAddresses = pAddresses;
-            while (pCurrAddresses) {
-                qDebug("\tLength of the IP_ADAPTER_ADDRESS struct: %ld\n",
-                       pCurrAddresses->Length);
-                qDebug("\tIfIndex (IPv4 interface): %u\n", pCurrAddresses->IfIndex);
-                qDebug("\tAdapter name: %s\n", pCurrAddresses->AdapterName);
+    //        if (dwRetVal == NO_ERROR) {
+    //            // If successful, output some information from the data we received
+    //            pCurrAddresses = pAddresses;
+    //            while (pCurrAddresses) {
+    //                qDebug("\tLength of the IP_ADAPTER_ADDRESS struct: %ld\n",
+    //                       pCurrAddresses->Length);
+    //                qDebug("\tIfIndex (IPv4 interface): %u\n", pCurrAddresses->IfIndex);
+    //                qDebug("\tAdapter name: %s\n", pCurrAddresses->AdapterName);
 
-                qDebug("\tAdapter descr:");
-                qDebug(QString::fromWCharArray(pCurrAddresses->Description).toLatin1());
+    //                qDebug("\tAdapter descr:");
+    //                qDebug(QString::fromWCharArray(pCurrAddresses->Description).toLatin1());
 
-                pUnicast = pCurrAddresses->FirstUnicastAddress;
-                if (pUnicast != NULL) {
-                    for (i = 0; pUnicast != NULL; i++)
-                        pUnicast = pUnicast->Next;
-                    qDebug("\tNumber of Unicast Addresses: %d\n", i);
-                } else
-                    qDebug("\tNo Unicast Addresses\n");
+    //                pUnicast = pCurrAddresses->FirstUnicastAddress;
+    //                if (pUnicast != NULL) {
+    //                    for (i = 0; pUnicast != NULL; i++)
+    //                        pUnicast = pUnicast->Next;
+    //                    qDebug("\tNumber of Unicast Addresses: %d\n", i);
+    //                } else
+    //                    qDebug("\tNo Unicast Addresses\n");
 
-                pAnycast = pCurrAddresses->FirstAnycastAddress;
-                if (pAnycast) {
-                    for (i = 0; pAnycast != NULL; i++)
-                        pAnycast = pAnycast->Next;
-                    qDebug("\tNumber of Anycast Addresses: %d\n", i);
-                } else
-                    qDebug("\tNo Anycast Addresses\n");
+    //                pAnycast = pCurrAddresses->FirstAnycastAddress;
+    //                if (pAnycast) {
+    //                    for (i = 0; pAnycast != NULL; i++)
+    //                        pAnycast = pAnycast->Next;
+    //                    qDebug("\tNumber of Anycast Addresses: %d\n", i);
+    //                } else
+    //                    qDebug("\tNo Anycast Addresses\n");
 
-                pMulticast = pCurrAddresses->FirstMulticastAddress;
-                if (pMulticast) {
-                    for (i = 0; pMulticast != NULL; i++)
-                        pMulticast = pMulticast->Next;
-                    qDebug("\tNumber of Multicast Addresses: %d\n", i);
-                } else
-                    qDebug("\tNo Multicast Addresses\n");
+    //                pMulticast = pCurrAddresses->FirstMulticastAddress;
+    //                if (pMulticast) {
+    //                    for (i = 0; pMulticast != NULL; i++)
+    //                        pMulticast = pMulticast->Next;
+    //                    qDebug("\tNumber of Multicast Addresses: %d\n", i);
+    //                } else
+    //                    qDebug("\tNo Multicast Addresses\n");
 
-                pDnServer = pCurrAddresses->FirstDnsServerAddress;
-                if (pDnServer) {
-                    for (i = 0; pDnServer != NULL; i++)
-                        pDnServer = pDnServer->Next;
-                    qDebug("\tNumber of DNS Server Addresses: %d\n", i);
-                } else
-                    qDebug("\tNo DNS Server Addresses\n");
+    //                pDnServer = pCurrAddresses->FirstDnsServerAddress;
+    //                if (pDnServer) {
+    //                    for (i = 0; pDnServer != NULL; i++)
+    //                        pDnServer = pDnServer->Next;
+    //                    qDebug("\tNumber of DNS Server Addresses: %d\n", i);
+    //                } else
+    //                    qDebug("\tNo DNS Server Addresses\n");
 
-                qDebug("\tDNS Suffix: %wS\n", pCurrAddresses->DnsSuffix);
-                qDebug("\tDescription: %wS\n", pCurrAddresses->Description);
-                qDebug("\tFriendly name: %wS\n", pCurrAddresses->FriendlyName);
+    //                qDebug("\tDNS Suffix: %wS\n", pCurrAddresses->DnsSuffix);
+    //                qDebug("\tDescription: %wS\n", pCurrAddresses->Description);
+    //                qDebug("\tFriendly name: %wS\n", pCurrAddresses->FriendlyName);
 
-                if (pCurrAddresses->PhysicalAddressLength != 0) {
-                    qDebug("\tPhysical address: ");
-                    for (i = 0; i < (int) pCurrAddresses->PhysicalAddressLength;
-                         i++) {
-                        if (i == (pCurrAddresses->PhysicalAddressLength - 1))
-                            qDebug("%.2X\n",
-                                   (int) pCurrAddresses->PhysicalAddress[i]);
-                        else
-                            qDebug("%.2X-",
-                                   (int) pCurrAddresses->PhysicalAddress[i]);
-                    }
-                }
-                qDebug("\tFlags: %ld\n", pCurrAddresses->Flags);
-                qDebug("\tMtu: %lu\n", pCurrAddresses->Mtu);
-                qDebug("\tIfType: %ld\n", pCurrAddresses->IfType);
-                qDebug("\tOperStatus: %ld\n", pCurrAddresses->OperStatus);
-                qDebug("\tIpv6IfIndex (IPv6 interface): %u\n",
-                       pCurrAddresses->Ipv6IfIndex);
-                qDebug("\tZoneIndices (hex): ");
-                for (i = 0; i < 16; i++)
-                    qDebug("%lx ", pCurrAddresses->ZoneIndices[i]);
-                qDebug("\n");
+    //                if (pCurrAddresses->PhysicalAddressLength != 0) {
+    //                    qDebug("\tPhysical address: ");
+    //                    for (i = 0; i < (int) pCurrAddresses->PhysicalAddressLength;
+    //                         i++) {
+    //                        if (i == (pCurrAddresses->PhysicalAddressLength - 1))
+    //                            qDebug("%.2X\n",
+    //                                   (int) pCurrAddresses->PhysicalAddress[i]);
+    //                        else
+    //                            qDebug("%.2X-",
+    //                                   (int) pCurrAddresses->PhysicalAddress[i]);
+    //                    }
+    //                }
+    //                qDebug("\tFlags: %ld\n", pCurrAddresses->Flags);
+    //                qDebug("\tMtu: %lu\n", pCurrAddresses->Mtu);
+    //                qDebug("\tIfType: %ld\n", pCurrAddresses->IfType);
+    //                qDebug("\tOperStatus: %ld\n", pCurrAddresses->OperStatus);
+    //                qDebug("\tIpv6IfIndex (IPv6 interface): %u\n",
+    //                       pCurrAddresses->Ipv6IfIndex);
+    //                qDebug("\tZoneIndices (hex): ");
+    //                for (i = 0; i < 16; i++)
+    //                    qDebug("%lx ", pCurrAddresses->ZoneIndices[i]);
+    //                qDebug("\n");
 
-                qDebug("\tTransmit link speed: %I64u\n", pCurrAddresses->TransmitLinkSpeed);
-                qDebug("\tReceive link speed: %I64u\n", pCurrAddresses->ReceiveLinkSpeed);
+    //                qDebug("\tTransmit link speed: %I64u\n", pCurrAddresses->TransmitLinkSpeed);
+    //                qDebug("\tReceive link speed: %I64u\n", pCurrAddresses->ReceiveLinkSpeed);
 
-                pPrefix = pCurrAddresses->FirstPrefix;
-                if (pPrefix) {
-                    for (i = 0; pPrefix != NULL; i++)
-                        pPrefix = pPrefix->Next;
-                    qDebug("\tNumber of IP Adapter Prefix entries: %d\n", i);
-                } else
-                    qDebug("\tNumber of IP Adapter Prefix entries: 0\n");
+    //                pPrefix = pCurrAddresses->FirstPrefix;
+    //                if (pPrefix) {
+    //                    for (i = 0; pPrefix != NULL; i++)
+    //                        pPrefix = pPrefix->Next;
+    //                    qDebug("\tNumber of IP Adapter Prefix entries: %d\n", i);
+    //                } else
+    //                    qDebug("\tNumber of IP Adapter Prefix entries: 0\n");
 
-                qDebug("\n");
+    //                qDebug("\n");
 
-                pCurrAddresses = pCurrAddresses->Next;
-            }
-        } else {
-            qDebug("Call to GetAdaptersAddresses failed with error: %d\n",
-                   dwRetVal);
-            if (dwRetVal == ERROR_NO_DATA)
-                qDebug("\tNo addresses were found for the requested parameters\n");
-            else {
+    //                pCurrAddresses = pCurrAddresses->Next;
+    //            }
+    //        } else {
+    //            qDebug("Call to GetAdaptersAddresses failed with error: %d\n",
+    //                   dwRetVal);
+    //            if (dwRetVal == ERROR_NO_DATA)
+    //                qDebug("\tNo addresses were found for the requested parameters\n");
+    //            else {
 
-                if (FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-                        FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-                        NULL, dwRetVal, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-                        // Default language
-                        (LPTSTR) & lpMsgBuf, 0, NULL)) {
-                    qDebug("\tError: %s", lpMsgBuf);
-                    LocalFree(lpMsgBuf);
-                    if (pAddresses)
-                        FREE(pAddresses);
-                    exit(1);
-                }
-            }
-        }
+    //                if (FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+    //                        FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+    //                        NULL, dwRetVal, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+    //                        // Default language
+    //                        (LPTSTR) & lpMsgBuf, 0, NULL)) {
+    //                    qDebug("\tError: %s", lpMsgBuf);
+    //                    LocalFree(lpMsgBuf);
+    //                    if (pAddresses)
+    //                        FREE(pAddresses);
+    //                    exit(1);
+    //                }
+    //            }
+    //        }
 
-        if (pAddresses) {
-            FREE(pAddresses);
-        }
+    //        if (pAddresses) {
+    //            FREE(pAddresses);
+    //        }
 
-    }
-    QList<QStringList> toReturn;
-    QStringList temp;
+    //    }
+    // what we will return at the end of the method
+    QList<SniffingInterfacePtr> toReturn;
+
+    // temporary object used to store information
+    // about a certain interface
+    SniffingInterfacePtr temp;
 
     pcap_if_t *alldevs;
-    pcap_if_t *d;
 
+    // error buffer
     char errbuf[PCAP_ERRBUF_SIZE];
 
-    /* Retrieve the device list from the local machine */
-    if (pcap_findalldevs_ex(PCAP_SRC_IF_STRING, NULL /* auth is not needed */, &alldevs, errbuf) == -1)
+    int res = pcap_findalldevs_ex(PCAP_SRC_IF_STRING,
+                                  NULL /* auth is not needed */,
+                                  &alldevs,
+                                  errbuf);
+
+    // Retrieve the device list from the local machine
+    if (res == -1)
     {
-        fprintf(stderr,"Eroare la cautarea de interfete: %s\n", errbuf);
+        // if the operation was not successful,
+        // then throw an exception
+        std::string exceptionText("Error finding interfaces: ");
+        exceptionText.append(errbuf);
+        throw PcapException(exceptionText.c_str());
     }
     else
     {
-        QString devName;
-        QStringList detailAdapterNetwork;
-
         // Save the list
-        for(d= alldevs; d != NULL; d= d->next)
+        for(pcap_if_t* d= alldevs; d != NULL; d= d->next)
         {
+            temp.reset(new SniffingInterface());
+
             // adding the device name
-            devName = QString(d->name);
-            temp << devName;
+            temp->setPcapName(QString(d->name));
 
             // adding the device description if it has one
             if(d->description) {
-                temp << QString(d->description);
+                temp->setPcapDescription(
+                            QString(d->description));
             } else {
-                temp << QString("");
+                temp->setPcapDescription(
+                            QString(""));
             }
+
+            getAdaptersInfo(temp);
+
+            toReturn.push_back(temp);
 
             // adding the actual description from the GetAdaptersInfo()
-            detailAdapterNetwork = getAdaptersInfo(devName);
-            if(detailAdapterNetwork.size() >= 2) {
-                temp << detailAdapterNetwork.at(2);
-            } else {
-                temp << QString("");
-            }
+            //            QStringList list1 = devName.split("_");
+            //            detailAdapterNetwork = getAdaptersInfo(list1.at(1));
+            //            if(detailAdapterNetwork.size() >= 2) {
+            //                temp << detailAdapterNetwork.at(2);
+            //            } else {
+            //                temp << QString("");
+            //            }
 
-            toReturn << temp;
-            temp.clear();
+            //            toReturn << temp;
+            //            temp.clear();
         }
     }
 
@@ -272,100 +290,180 @@ QList<QStringList> InterfaceManager::getListOfInterfacess()
     return toReturn;
 }
 
-QList<QStringList> InterfaceManager::getDetailsOfInterface(QString inter)
+void InterfaceManager::getAdaptersInfo(SniffingInterfacePtr& adaptName)
 {
-    (void)inter;
+    //    {
 
-    QList<QStringList> toReturn;
-    return toReturn;
-}
+    //        PIP_ADAPTER_INFO pAdapterInfo;
+    //        PIP_ADAPTER_INFO pAdapter = NULL;
+    //        DWORD dwRetVal = 0;
 
-QStringList InterfaceManager::getAdaptersInfo(QString adaptName)
-{
-    QStringList toReturn;
+    //        ULONG ulOutBufLen = sizeof (IP_ADAPTER_INFO);
+    //        pAdapterInfo = (IP_ADAPTER_INFO *) MALLOC(sizeof (IP_ADAPTER_INFO));
+    //        if (pAdapterInfo == NULL)
+    //        {
+    //            qDebug("Error allocating memory needed to call GetAdaptersinfo\n");
+    //        }
+    //        else
+    //        {
+    //            // Make an initial call to GetAdaptersInfo to get
+    //            // the necessary size into the ulOutBufLen variable
+    //            if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) ==
+    //                    ERROR_BUFFER_OVERFLOW)
+    //            {
+    //                FREE(pAdapterInfo);
+    //                pAdapterInfo = (IP_ADAPTER_INFO *) MALLOC(ulOutBufLen);
+    //                if (pAdapterInfo == NULL)
+    //                {
+    //                    qDebug("Error allocating memory needed to call GetAdaptersinfo\n");
+    //                }
+    //                else
+    //                {
+    //                    if ((dwRetVal = GetAdaptersInfo(pAdapterInfo, &ulOutBufLen)) ==
+    //                            NO_ERROR)
+    //                    {
+    //                        pAdapter = pAdapterInfo;
+    //                        while (pAdapter)
+    //                        {
+    //                            if(adaptName == QString(pAdapter->AdapterName))
+    //                            {
+    //                                toReturn << QString::number(pAdapter->ComboIndex);
+    //                                toReturn << QString(pAdapter->AdapterName);
+    //                                toReturn << QString(pAdapter->Description);
+    //                                toReturn << getAdapterType(pAdapter->Type);
+    //                            }
+    //                            pAdapter = pAdapter->Next;
+    //                        }
+    //                    }
+    //                    else
+    //                    {
+    //                        qDebug("GetAdaptersInfo failed with error: %d\n", dwRetVal);
+    //                    }
+    //                    if (pAdapterInfo)
+    //                        FREE(pAdapterInfo);
+    //                }
+    //            }
+    //        }
+    //    }
+    if(adaptName)
+    {
 
-//    PIP_ADAPTER_INFO pAdapterInfo;
-//    PIP_ADAPTER_INFO pAdapter = NULL;
-//    DWORD dwRetVal = 0;
+        // these variables are passed as parameters
+        // to the GetAdaptersInfo function
+        IP_ADAPTER_INFO  *pAdapterInfo;
+        ULONG             ulOutBufLen;
 
-//    ULONG ulOutBufLen = sizeof (IP_ADAPTER_INFO);
-//    pAdapterInfo = (IP_ADAPTER_INFO *) MALLOC(sizeof (IP_ADAPTER_INFO));
-//    if (pAdapterInfo == NULL)
-//    {
-//        qDebug("Error allocating memory needed to call GetAdaptersinfo\n");
-//    }
-//    else
-//    {
-//        // Make an initial call to GetAdaptersInfo to get
-//        // the necessary size into the ulOutBufLen variable
-//        if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) ==
-//                ERROR_BUFFER_OVERFLOW)
-//        {
-//            FREE(pAdapterInfo);
-//            pAdapterInfo = (IP_ADAPTER_INFO *) MALLOC(ulOutBufLen);
-//            if (pAdapterInfo == NULL)
-//            {
-//                qDebug("Error allocating memory needed to call GetAdaptersinfo\n");
-//            }
-//            else
-//            {
-//                if ((dwRetVal = GetAdaptersInfo(pAdapterInfo, &ulOutBufLen)) ==
-//                        NO_ERROR)
-//                {
-//                    pAdapter = pAdapterInfo;
-//                    while (pAdapter)
-//                    {
-//                        toReturn << QString(pAdapter->ComboIndex);
-//                        toReturn << QString(pAdapter->AdapterName);
-//                        toReturn << QString(pAdapter->Description);
-//                        toReturn << getAdapterType(pAdapter->Type);
+        // also create a DWORD variable called dwRetVal
+        // (for error checking)
+        DWORD            dwRetVal;
 
-//                        pAdapter = pAdapter->Next;
-//                    }
-//                }
-//                else
-//                {
-//                    qDebug("GetAdaptersInfo failed with error: %d\n", dwRetVal);
-//                }
-//                if (pAdapterInfo)
-//                    FREE(pAdapterInfo);
-//            }
-//        }
-//    }
-    return toReturn;
+        // allocate memory for the structures
+        pAdapterInfo = (IP_ADAPTER_INFO *)
+                malloc( sizeof(IP_ADAPTER_INFO) );
+        ulOutBufLen = sizeof(IP_ADAPTER_INFO);
+
+        // Make an initial call to GetAdaptersInfo to get
+        // the size needed into the ulOutBufLen variable.
+        // Note  This call to the function is meant to fail,
+        // and is used to ensure that the ulOutBufLen variable
+        // specifies a size sufficient for holding
+        // all the information returned to pAdapterInfo.
+        // This is a common programming model for data structures
+        // and functions of this type.
+        if (GetAdaptersInfo(
+                    pAdapterInfo,
+                    &ulOutBufLen) != ERROR_SUCCESS) {
+            free (pAdapterInfo);
+            pAdapterInfo = (IP_ADAPTER_INFO *)
+                    malloc ( ulOutBufLen );
+        }
+
+        // Make a second call to GetAdaptersInfo,
+        // passing pAdapterInfo and ulOutBufLen as parameters
+        // and doing general error checking.
+        // Return its value to the DWORD variable dwRetVal
+        // (for more extensive error checking).
+
+        dwRetVal = GetAdaptersInfo( pAdapterInfo, &ulOutBufLen);
+
+        if (dwRetVal != ERROR_SUCCESS) {
+            printf("GetAdaptersInfo call failed with %d\n", dwRetVal);
+        }
+
+        // If the call was successful,
+        // access some of the data in the pAdapterInfo structure.
+        PIP_ADAPTER_INFO pAdapter = pAdapterInfo;
+
+        QString devName = adaptName->getPcapName();
+        QStringList tempList = devName.split("_");
+        devName = tempList.at(1);
+
+        while (pAdapter){
+
+            if(devName == QString(pAdapter->AdapterName))
+            {
+                adaptName->setName(QString(pAdapter->AdapterName));
+                adaptName->setDescription(QString(pAdapter->Description));
+                printf("\tAdapter Addr: \t");
+                for (UINT i = 0; i < pAdapter->AddressLength; i++) {
+                    if (i == (pAdapter->AddressLength - 1))
+                        printf("%.2X\n",(int)pAdapter->Address[i]);
+                    else
+                        printf("%.2X-",(int)pAdapter->Address[i]);
+                }
+                adaptName->setIpAddress(QString(pAdapter->IpAddressList.IpAddress.String));
+                adaptName->setIpMask(QString(pAdapter->IpAddressList.IpMask.String));
+                printf("\tGateway: \t%s\n", pAdapter->GatewayList.IpAddress.String);
+                printf("\t***\n");
+                if (pAdapter->DhcpEnabled) {
+                    printf("\tDHCP Enabled: Yes\n");
+                    printf("\t\tDHCP Server: \t%s\n", pAdapter->DhcpServer.IpAddress.String);
+                }
+                else
+                    printf("\tDHCP Enabled: No\n");
+
+            }
+            pAdapter = pAdapter->Next;
+        }
+
+
+        // Free any memory allocated for the pAdapterInfo structure.
+        if (pAdapterInfo)
+            free(pAdapterInfo);
+    }
 }
 
 QString InterfaceManager::getAdapterType(UINT type)
 {
     QString toReturn;
     switch (type) {
-        case MIB_IF_TYPE_OTHER:
-            toReturn = QString("Other\n");
-            break;
-        case MIB_IF_TYPE_ETHERNET:
-            toReturn = QString("Ethernet\n");
-            break;
-        case MIB_IF_TYPE_TOKENRING:
-            toReturn = QString("Token Ring\n");
-            break;
-        case MIB_IF_TYPE_FDDI:
-            toReturn = QString("FDDI\n");
-            break;
-        case MIB_IF_TYPE_PPP:
-            toReturn = QString("PPP\n");
-            break;
-        case MIB_IF_TYPE_LOOPBACK:
-            toReturn = QString("Lookback\n");
-            break;
-        case MIB_IF_TYPE_SLIP:
-            toReturn = QString("Slip\n");
-            break;
-        case IF_TYPE_IEEE80211:
-            toReturn = QString("WIFI\n");
-            break;
-        default:
-            toReturn = QString("Unknown type %1\n").arg(QString::number(type));
-            break;
+    case MIB_IF_TYPE_OTHER:
+        toReturn = QString("Other\n");
+        break;
+    case MIB_IF_TYPE_ETHERNET:
+        toReturn = QString("Ethernet\n");
+        break;
+    case MIB_IF_TYPE_TOKENRING:
+        toReturn = QString("Token Ring\n");
+        break;
+    case MIB_IF_TYPE_FDDI:
+        toReturn = QString("FDDI\n");
+        break;
+    case MIB_IF_TYPE_PPP:
+        toReturn = QString("PPP\n");
+        break;
+    case MIB_IF_TYPE_LOOPBACK:
+        toReturn = QString("Lookback\n");
+        break;
+    case MIB_IF_TYPE_SLIP:
+        toReturn = QString("Slip\n");
+        break;
+    case IF_TYPE_IEEE80211:
+        toReturn = QString("WIFI\n");
+        break;
+    default:
+        toReturn = QString("Unknown type %1\n").arg(QString::number(type));
+        break;
     }
 
     return toReturn;

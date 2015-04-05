@@ -18,10 +18,12 @@ public:
     ~InterfaceList();
 
 private slots:
-    void on_listWidget_doubleClicked(const QModelIndex &index);
+    void on_tableView_doubleClicked(const QModelIndex &index);
+
+    void on_buttonBox_accepted();
 
 signals:
-    void deviceSelected(QString device);
+    void deviceSelected(SniffingInterfacePtr device);
 
 private:
     Ui::InterfaceList *ui;

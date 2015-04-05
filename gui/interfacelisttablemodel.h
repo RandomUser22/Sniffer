@@ -20,9 +20,13 @@ public:
     QVariant data(
             const QModelIndex &index,
             int role = Qt::DisplayRole) const;
+    QVariant headerData(
+            int section, Qt::Orientation orientation, int role) const;
+
+    SniffingInterfacePtr getSelectedInterface(int input);
 
 private:
-    QList<QStringList> listOfItems;
+    QList<SniffingInterfacePtr> listOfItems;
 
 };
 

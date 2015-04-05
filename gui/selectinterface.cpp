@@ -4,9 +4,11 @@
 SelectInterface::SelectInterface(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SelectInterface),
-    inter("")
+    inter()
 {
     ui->setupUi(this);
+
+    qRegisterMetaType<SniffingInterfacePtr>("SniffingInterfacePtr");
 }
 
 SelectInterface::~SelectInterface()
@@ -16,18 +18,18 @@ SelectInterface::~SelectInterface()
 
 void SelectInterface::on_buttonBox_accepted()
 {
-    inter = ui->lineEdit->text();
     emit interfaceSelect(inter);
 }
 
 void SelectInterface::on_list_clicked()
 {
     InterfaceList l(this);
-    connect(&l, SIGNAL(deviceSelected(QString)), this, SLOT(onDeviceSelected(QString)));
+    connect(&l, SIGNAL(deviceSelected(SniffingInterfacePtr)), this, SLOT(onDeviceSelected(SniffingInterfacePtr)));
     l.exec();
 }
 
-void SelectInterface::onDeviceSelected(QString device)
+void SelectInterface::onDeviceSelected(SniffingInterfacePtr device)
 {
-    ui->lineEdit->setText(device);
+    inter = device;
+    ui->lineEdit->setText(device->getDescription());
 }

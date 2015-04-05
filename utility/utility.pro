@@ -12,12 +12,10 @@ TEMPLATE = lib
 DEFINES += UTILITY_LIBRARY
 
 # sources
-SOURCES += utility.cpp
 SOURCES += stringutil.cpp
 
 #headers
 HEADERS += utility_global.h
-HEADERS += utility.h
 HEADERS += stringutil.h
 
 unix {

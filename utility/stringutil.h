@@ -11,7 +11,7 @@ public:
     StringUtil();
     virtual ~StringUtil();
 
-    static char* qStringToCharP(QString input);
+    char* qStringToCharP(QString input);
 };
 
 #endif // STRINGUTIL_H

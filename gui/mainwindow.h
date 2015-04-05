@@ -4,6 +4,7 @@
 #include "gui_global.h"
 
 #include <QMainWindow>
+#include <QCloseEvent>
 #include <QtDebug>
 
 #include "selectinterface.h"
@@ -31,16 +32,23 @@ private slots:
 
     void on_start_sniff_clicked();
 
-    void onInterfaceSelected(QString inter);
+    void onInterfaceSelected(SniffingInterfacePtr inter);
 
-    void onPackageCaptured(QStringList payload);
+    void onPackageCaptured(unsigned int pckCount,
+                           PacketPtr payload);
+
+    void on_start_sniff_released();
 
 private:
+    void initializeUi();
+
+    void closeEvent(QCloseEvent *bar);
+
     Ui::MainWindow *ui;
 
-    QString inter;
+    SniffingInterfacePtr inter;
 
-    SnifferManager *snifferManager;
+    SnifferManagerPtr snifferManager;
 };
 
 #endif // MAINWINDOW_H

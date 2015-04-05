@@ -1,31 +1,40 @@
 #include "sniffermanager.h"
 #include <iostream>
 
-SnifferManager* SnifferManager::instance;
+SnifferManagerPtr SnifferManager::instance;
 int SnifferManager::count;
 
-SnifferManager* SnifferManager::getInstance()
+SnifferManagerPtr SnifferManager::getInstance()
 {
-    if(instance == NULL)
+    // check to see if the instance is pointing to a valid object
+    if(!instance)
     {
-        instance = new SnifferManager();
+        // if not then create one
+        instance = SnifferManagerPtr(new SnifferManager());
     }
+    // return the single instance
     return instance;
 }
 
 void SnifferManager::removeInstance()
 {
-    if(instance != NULL)
+    // check to see if the instance exists
+    if(instance)
     {
-        delete instance;
+        // if it exists then delete it
+        instance.reset();
     }
 }
 
 SnifferManager::SnifferManager():
-    device()
+    device(),
+    handle(NULL),
+    mask(0),
+    net(0),
+    filter_exp((char*)"ip"),
+    count(0)
 {
-    filter_exp = (char*)"ip";
-    count = 0;
+
 }
 
 SnifferManager::~SnifferManager()
@@ -117,6 +126,7 @@ void SnifferManager::callbackPacketReceived(u_char *args,
 
 void SnifferManager::startSniffing()
 {
+    qDebug("2");
     if(this->device != NULL)
     {
         /* get network number and mask associated with capture device */

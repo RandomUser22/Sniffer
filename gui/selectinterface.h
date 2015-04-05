@@ -21,15 +21,15 @@ private slots:
 
     void on_list_clicked();
 
-    void onDeviceSelected(QString device);
+    void onDeviceSelected(SniffingInterfacePtr device);
 
 signals:
-    void interfaceSelect(QString inter);
+    void interfaceSelect(SniffingInterfacePtr inter);
 
 private:
     Ui::SelectInterface *ui;
 
-    QString inter;
+    SniffingInterfacePtr inter;
 };
 
 #endif // SELECTINTERFACE_H
