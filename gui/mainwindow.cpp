@@ -4,109 +4,70 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    inter(),
-    snifferManager(SnifferManager::getInstance())
+    psw(new PacketSniffingWidget(this)),
+    apiw(new AccessPointInformationWidget(this)),
+    gaw(new GeneralAnalysisWidget(this))
 {
-    // set the UI of the application
     ui->setupUi(this);
-    initializeUi();
 
-    // register the packet class so it can be used in the signal-slot mechanism
-    qRegisterMetaType<PacketPtr>("PacketPtr");
-    qRegisterMetaType<SniffingInterfacePtr>("SniffingInterfacePtr");
+    apiw->setVisible(false);
+    psw->setVisible(false);
+    gaw->setVisible(false);
 
-    // connect the signal for when receiving a packet
-    connect(snifferManager.get(),
-            SIGNAL(packageCaptured(unsigned int, PacketPtr)),
-            this,
-            SLOT(onPackageCaptured(unsigned int, PacketPtr)));
+    setupWindowDisplay();
 }
 
 MainWindow::~MainWindow()
 {
-    SnifferManager::removeInstance();
+    delete apiw;
+    delete psw;
+    delete gaw;
     delete ui;
 }
 
-void MainWindow::initializeUi()
+void MainWindow::setupWindowDisplay()
 {
-    // set the title of the main window
-    this->setWindowTitle(QString::fromUtf8("Tomato"));
+    QVBoxLayout* vboxLayout = new QVBoxLayout();
 
-    // set the number of columns
-    ui->tableWidget->setColumnCount(3);
+    vboxLayout->addWidget(gaw);
+    apiw->setVisible(false);
+    psw->setVisible(false);
+    gaw->setVisible(true);
+    vboxLayout->setMargin(0);
+    vboxLayout->setSpacing(0);
 
-    // set the label for each column
-    ui->tableWidget->setHorizontalHeaderLabels(QString("ID;Size;Data").split(";"));
-
-    // stretch the table over the full view
-    ui->tableWidget->horizontalHeader()->
-            setSectionResizeMode(QHeaderView::Stretch);
-
-    // hide the vertical header
-    ui->tableWidget->verticalHeader()->hide();
-
-    // user can only select the rows
-    ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-
-    // user cannot edit any cell
-    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-    // word wrap the text
-    ui->tableWidget->setWordWrap(true);
+    ui->application_mode_widget->setLayout(vboxLayout);
 }
 
-void MainWindow::on_actionNew_triggered(){
-
-}
-
-void MainWindow::on_actionOpen_triggered(){
-
-}
-
-void MainWindow::on_actionAbout_triggered(){
-}
-
-void MainWindow::on_select_interface_clicked()
+void MainWindow::on_access_point_information_button_clicked()
 {
-    SelectInterface s(this);
-    connect(&s, SIGNAL(interfaceSelect(SniffingInterfacePtr)), this, SLOT(onInterfaceSelected(SniffingInterfacePtr)));
-    s.exec();
+    QLayout* vboxLayout = ui->application_mode_widget->layout();
+    vboxLayout->removeWidget(psw);
+    vboxLayout->removeWidget(gaw);
+    vboxLayout->addWidget(apiw);
+    apiw->setVisible(true);
+    psw->setVisible(false);
+    gaw->setVisible(false);
 }
 
-void MainWindow::on_start_sniff_clicked()
+void MainWindow::on_packet_sniffing_button_clicked()
 {
-    snifferManager->setInterfaceToSniffOn(this->inter->getPcapName());
-    snifferManager->startSniffing();
+    QLayout* vboxLayout = ui->application_mode_widget->layout();
+    vboxLayout->removeWidget(apiw);
+    vboxLayout->removeWidget(gaw);
+    vboxLayout->addWidget(psw);
+    apiw->setVisible(false);
+    psw->setVisible(true);
+    gaw->setVisible(false);
 }
 
-void MainWindow::onInterfaceSelected(SniffingInterfacePtr inter)
+void MainWindow::on_analysis_button_clicked()
 {
-    this->inter = inter;
-    ui->interface_label->setText(this->inter->getDescription());
-}
-
-void MainWindow::onPackageCaptured(unsigned int pckCount,
-                                   PacketPtr payload)
-{
-    ui->lcdNumber->display((int)pckCount);
-
-    int lastRow = ui->tableWidget->rowCount();
-    ui->tableWidget->insertRow(lastRow);
-
-    ui->tableWidget->setItem(lastRow, 0, new QTableWidgetItem(QString::number(pckCount)));
-    ui->tableWidget->setItem(lastRow, 1, new QTableWidgetItem(QString::number(payload->getSizeOfPacket())));
-    ui->tableWidget->setItem(lastRow, 2, new QTableWidgetItem(QString((payload->getData()).toHex())));
-}
-
-void MainWindow::on_start_sniff_released(){
-}
-
-void MainWindow::closeEvent(QCloseEvent *bar)
-{
-    // prepare for closing
-    SnifferManager::removeInstance();
-
-    bar->accept();
-
+    QLayout* vboxLayout = ui->application_mode_widget->layout();
+    vboxLayout->removeWidget(apiw);
+    vboxLayout->removeWidget(psw);
+    vboxLayout->addWidget(gaw);
+    apiw->setVisible(false);
+    psw->setVisible(false);
+    gaw->setVisible(true);
 }

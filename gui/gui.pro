@@ -1,71 +1,110 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2015-03-15T16:56:55
+# Project created by QtCreator 2015-05-10T15:23:12
 #
 #-------------------------------------------------
 
 QT       += core gui
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = gui
 TEMPLATE = lib
-CONFIG += plugin
 
 DEFINES += GUI_LIBRARY
 
 SOURCES += \
-    selectinterface.cpp \
     mainwindow.cpp \
-    interfacelist.cpp \
-    interfacelisttablemodel.cpp
+    packetsniffingwidget.cpp \
+    selectinterfacedialog.cpp \
+    interfacedetailsdialog.cpp \
+    packagedetailsdialog.cpp \
+    accesspointinformationwidget.cpp \
+    generalanalysiswidget.cpp \
+    qcustomplot.cpp
 
 HEADERS +=\
         gui_global.h \
-    selectinterface.h \
     mainwindow.h \
-    interfacelist.h \
-    interfacelisttablemodel.h
+    packetsniffingwidget.h \
+    selectinterfacedialog.h \
+    interfacedetailsdialog.h \
+    packagedetailsdialog.h \
+    accesspointinformationwidget.h \
+    generalanalysiswidget.h \
+    qcustomplot.h
 
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
 
-FORMS += \
-    selectinterface.ui \
-    mainwindow.ui \
-    interfacelist.ui
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../util/release/ -lutil
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../util/debug/ -lutil
+else:unix: LIBS += -L$$OUT_PWD/../util/ -lutil
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../utility/release/ -lutility
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../utility/debug/ -lutility
-else:unix:!macx: LIBS += -L$$OUT_PWD/../utility/ -lutility
+INCLUDEPATH += $$PWD/../util
+DEPENDPATH += $$PWD/../util
 
-INCLUDEPATH += $$PWD/../utility
-DEPENDPATH += $$PWD/../utility
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../exception/release/ -lexception
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../exception/debug/ -lexception
+else:unix: LIBS += -L$$OUT_PWD/../exception/ -lexception
 
-# include the entity lib
+INCLUDEPATH += $$PWD/../exception
+DEPENDPATH += $$PWD/../exception
+
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../entity/release/ -lentity
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../entity/debug/ -lentity
-else:unix:!macx: LIBS += -L$$OUT_PWD/../entity/ -lentity
+else:unix: LIBS += -L$$OUT_PWD/../entity/ -lentity
 
 INCLUDEPATH += $$PWD/../entity
 DEPENDPATH += $$PWD/../entity
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../sniffer/release/ -lsniffer
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../sniffer/debug/ -lsniffer
-else:unix:!macx: LIBS += -L$$OUT_PWD/../sniffer/ -lsniffer
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../sql/release/ -lsql
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../sql/debug/ -lsql
+else:unix: LIBS += -L$$OUT_PWD/../sql/ -lsql
 
-INCLUDEPATH += $$PWD/../sniffer
-DEPENDPATH += $$PWD/../sniffer
+INCLUDEPATH += $$PWD/../sql
+DEPENDPATH += $$PWD/../sql
 
-unix:!macx: LIBS += -L$$PWD/../pcap/libpcap/ -lpcap
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../file/release/ -lfile
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../file/debug/ -lfile
+else:unix: LIBS += -L$$OUT_PWD/../file/ -lfile
 
-unix:INCLUDEPATH += $$PWD/../pcap/libpcap
-unix:DEPENDPATH += $$PWD/../pcap/libpcap
+INCLUDEPATH += $$PWD/../file
+DEPENDPATH += $$PWD/../file
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../pcap/winpcap/Lib/ -lwpcap
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../pcap/winpcap/Lib/ -lwpcap
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../logic/release/ -llogic
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../logic/debug/ -llogic
+else:unix: LIBS += -L$$OUT_PWD/../logic/ -llogic
 
-win32:INCLUDEPATH += $$PWD/../pcap/winpcap/Include
-win32:DEPENDPATH += $$PWD/../pcap/winpcap/Include
+INCLUDEPATH += $$PWD/../logic
+DEPENDPATH += $$PWD/../logic
+
+FORMS += \
+    mainwindow.ui \
+    packetsniffingwidget.ui \
+    selectinterfacedialog.ui \
+    interfacedetailsdialog.ui \
+    packagedetailsdialog.ui \
+    accesspointinformationwidget.ui \
+    generalanalysiswidget.ui
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../external/qcustomplot/lib/win/qcustomplot.dll
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../external/qcustomplot/lib/win/qcustomplot.dll
+else:unix: LIBS += -L$$OUT_PWD/../external/qcustomplot/lib/unix/ -lqcustomplot
+
+INCLUDEPATH += $$PWD/../external/qcustomplot/include/
+DEPENDPATH += $$PWD/../external/qcustomplot/include/
+
+# include for pcap
+unix:!macx: LIBS += -L$$PWD/../external/pcap/libpcap/ -lpcap
+
+unix:INCLUDEPATH += $$PWD/../external/pcap/libpcap
+unix:DEPENDPATH += $$PWD/../external/pcap/libpcap
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../external/pcap/winpcap/Lib/ -lwpcap
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../external/pcap/winpcap/Lib/ -lwpcap
+win32:LIBS += -lWS2_32
+
+win32:INCLUDEPATH += $$PWD/../external/pcap/winpcap/Include
+win32:DEPENDPATH += $$PWD/../external/pcap/winpcap/Include

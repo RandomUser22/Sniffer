@@ -1,52 +1,20 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2015-05-10T15:24:07
+# Project created by QtCreator 2015-05-10T15:25:10
 #
 #-------------------------------------------------
 
-QT       += core gui
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       -= gui
 
-TARGET = entity
+TARGET = sql
 TEMPLATE = lib
 
-DEFINES += ENTITY_LIBRARY
+DEFINES += SQL_LIBRARY
 
-SOURCES += \
-    ethernetheader.cpp \
-    networkinterface.cpp \
-    pcapaddressnetworkinterface.cpp \
-    packet.cpp \
-    ipheader.cpp \
-    subpacket.cpp \
-    payload.cpp \
-    tcppayload.cpp \
-    udppayload.cpp \
-    icmppayload.cpp \
-    wlaninterface.cpp \
-    wlanavailableconnection.cpp \
-    wlanavailableconnectionlist.cpp
+SOURCES += sql.cpp
 
-HEADERS +=\
-        entity_global.h \
-    ethernetheader.h \
-    networkinterface.h \
-    enum_adaptertype.h \
-    pcapaddressnetworkinterface.h \
-    packet.h \
-    ipheader.h \
-    subpacket.h \
-    payload.h \
-    tcppayload.h \
-    udppayload.h \
-    icmppayload.h \
-    networkinclude.h \
-    enum_protocoltype.h \
-    wlaninterface.h \
-    wlanavailableconnection.h \
-    enum_wlanconnection.h \
-    enum_wlanbsstype.h \
-    wlanavailableconnectionlist.h
+HEADERS += sql.h\
+        sql_global.h
 
 unix {
     target.path = /usr/lib
@@ -67,10 +35,12 @@ else:unix: LIBS += -L$$OUT_PWD/../exception/ -lexception
 INCLUDEPATH += $$PWD/../exception
 DEPENDPATH += $$PWD/../exception
 
-win32: LIBS += -L$$PWD/../external/pcap/winpcap/Lib/ -lwpcap
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../entity/release/ -lentity
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../entity/debug/ -lentity
+else:unix: LIBS += -L$$OUT_PWD/../entity/ -lentity
 
-INCLUDEPATH += $$PWD/../external/pcap/winpcap/Lib
-DEPENDPATH += $$PWD/../external/pcap/winpcap/Lib
+INCLUDEPATH += $$PWD/../entity
+DEPENDPATH += $$PWD/../entity
 
 # include for pcap
 unix:!macx: LIBS += -L$$PWD/../external/pcap/libpcap/ -lpcap

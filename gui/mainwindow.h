@@ -1,13 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "gui_global.h"
-
+// includes from QT
 #include <QMainWindow>
-#include <QCloseEvent>
-#include <QtDebug>
 
-#include "selectinterface.h"
+// includes from current project
+#include "gui_global.h"
+#include "packetsniffingwidget.h"
+#include "accesspointinformationwidget.h"
+#include "generalanalysiswidget.h"
 
 namespace Ui {
 class GUISHARED_EXPORT MainWindow;
@@ -22,33 +23,19 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_actionNew_triggered();
+    void on_access_point_information_button_clicked();
 
-    void on_actionOpen_triggered();
+    void on_packet_sniffing_button_clicked();
 
-    void on_actionAbout_triggered();
-
-    void on_select_interface_clicked();
-
-    void on_start_sniff_clicked();
-
-    void onInterfaceSelected(SniffingInterfacePtr inter);
-
-    void onPackageCaptured(unsigned int pckCount,
-                           PacketPtr payload);
-
-    void on_start_sniff_released();
+    void on_analysis_button_clicked();
 
 private:
-    void initializeUi();
-
-    void closeEvent(QCloseEvent *bar);
+    void setupWindowDisplay();
 
     Ui::MainWindow *ui;
-
-    SniffingInterfacePtr inter;
-
-    SnifferManagerPtr snifferManager;
+    PacketSniffingWidget* psw;
+    AccessPointInformationWidget* apiw;
+    GeneralAnalysisWidget* gaw;
 };
 
 #endif // MAINWINDOW_H
